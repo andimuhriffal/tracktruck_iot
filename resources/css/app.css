@@ -1,0 +1,14 @@
+
+.fuel-level-bar {
+    width: 100%;
+    background-color: #007bff; /* Warna fuel level */
+    transition: height 0.5s ease; /* Animasi transisi */
+}
+
+.dashboard-section {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}
