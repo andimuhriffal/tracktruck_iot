@@ -31,4 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+Route::get('/detections', [DetectionController::class, 'index'])->name('detections.index');
+Route::get('/detections/{id}', [DetectionController::class, 'show'])->name('detections.show');
 

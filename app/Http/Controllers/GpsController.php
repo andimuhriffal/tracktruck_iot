@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GPSData;
+use Carbon\Carbon;
 
 class GpsController extends Controller
 {
-    public function latest()
+    public function latest(Request $request)
     {
         $gpsData = GPSData::latest()->first();
-        
+
         if (!$gpsData) {
             return response()->json(['message' => 'No data found'], 404);
         }
@@ -24,20 +25,23 @@ class GpsController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi request
+        // Validasi input
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'recorded_at' => 'required|date',
+            'recorded_at' => 'required|date_format:Y-m-d\TH:i:s\Z',
         ]);
 
-        // Simpan data GPS baru
+        // Konversi format datetime
+        $recordedAt = Carbon::parse($request->input('recorded_at'))->format('Y-m-d H:i:s');
+
+        // Simpan data ke database
         $gpsData = new GPSData();
-        $gpsData->latitude = $request->latitude;
-        $gpsData->longitude = $request->longitude;
-        $gpsData->recorded_at = $request->recorded_at;
+        $gpsData->latitude = $request->input('latitude');
+        $gpsData->longitude = $request->input('longitude');
+        $gpsData->recorded_at = $recordedAt;
         $gpsData->save();
 
-        return response()->json(['message' => 'GPS data saved successfully'], 201);
+        return response()->json(['message' => 'Data berhasil disimpan'], 201);
     }
 }

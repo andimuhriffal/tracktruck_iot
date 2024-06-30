@@ -8,20 +8,25 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #00a2ff;
-            color: white;
+            background-color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .dashboard-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-            padding: 20px;
-            border: 5px solid #007bff;
-            border-radius: 10px;
-            background-color: #0f0470;
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('images/background3.jpg') }}');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            opacity: 0.3;
+            z-index: -1;
+            filter: blur(1px);
         }
 
         .dashboard-section {
@@ -49,18 +54,21 @@
             justify-content: space-between;
             width: 100%;
             padding: 20px;
+            flex-wrap: wrap;
         }
 
         .camera-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
             flex: 1;
-            padding: 20px;
+            padding: 10px;
+            text-align: center;
         }
 
         .camera-section img {
-            width: 60%;
-            height: 60%;
+            width: 80%;
+            height: auto;
             object-fit: cover;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -97,25 +105,24 @@
             height: 400px;
             width: 100%;
             margin-bottom: 20px;
-            border: 10px solid #007bff;
+            border: 10px solid #3FA2F6;
             border-radius: 10px;
         }
 
         .nav-link {
             font-weight: bold;
-            color: white;
-            /* Ubah warna teks nav-link menjadi putih */
+            color: white !important;
         }
 
         .navbar-brand {
             margin-right: 1rem;
             color: white !important;
-            /* Ubah warna teks navbar-brand menjadi putih */
         }
 
         .navbar-nav .nav-link {
             padding: 0.5rem 1rem;
             font-size: 1rem;
+            color: white !important;
         }
 
         @media (max-width: 576px) {
@@ -125,7 +132,8 @@
         }
 
         .text-section {
-            margin-left: 20px;
+            margin-top: 20px;
+            text-align: center;
             max-width: 400px;
         }
 
@@ -142,71 +150,122 @@
 
         .row2 {
             display: flex;
+            flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
             width: 100%;
             padding: 20px;
+            flex-wrap: wrap;
         }
 
         .gps-section,
         .fuel-container {
             flex: 1;
-            margin: 0 20px;
+            margin: 20px 0;
+            text-align: center;
         }
 
-        /* Navbar styles */
-        .navbar-custom {
-            background-color: #0f0470;
-            /* Background color */
-            color: white;
-            /* Text color */
+        .camera-section h3,
+        .gps-section h3,
+        .fuel-container h3 {
+            color: #14279B;
+            font-weight: bold;
         }
 
-        .navbar-custom .navbar-brand {
-            color: white;
-            /* Brand (logo) text color */
+        .navbar-dark.bg-brown {
+            background-color: #1089FF;
         }
 
-        .navbar-custom .navbar-nav .nav-link {
-            color: white;
-            /* Nav links text color */
+        .navbar-dark.bg-brown .navbar-brand,
+        .navbar-dark.bg-brown .navbar-nav .nav-link {
+            color: #ffffff !important;
         }
 
-        .navbar-custom .navbar-nav .nav-link:hover,
-        .navbar-custom .navbar-nav .nav-link:focus {
-            color: white;
-            /* Nav links text color on hover or focus */
+        .navigation-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        .navigation-buttons {
+            text-align: center;
+        }
+
+        .navigation-buttons .btn {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3FA2F6;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navigation-buttons .btn:hover {
+            background-color: #3FA2F6;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #96C9F4;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        footer button {
+            background-color: transparent;
+            border: none;
+            color: #1b1818;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        footer button:hover {
+            text-decoration: underline;
+        }
+
+        .undefined-value {
+            color: #BE1C2Ded;
         }
     </style>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-brown">
         <a class="navbar-brand" href="#">Informasi Truck</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <span class="welcome-message">Welcome, {{ Auth::user()->name }}!</span>
+                <span class="welcome-message" style="color: #ffffff">Welcome, {{ Auth::user()->name }}!</span>
             </li>
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
-                <button type="submit" class="btn btn-link nav-link" style="font-weight: bold;">Logout</button>
-            </form>
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-link nav-link" style="font-weight: bold;">Logout</button>
+                </form>
+            </li>
         </ul>
     </nav>
-
     <div class="dashboard-container">
         <div class="row1">
             <div class="camera-section">
                 <div>
                     <h3>Camera Dashboard</h3>
                     <img src="http://127.0.0.1:5000/video_feed" alt="Camera Feed" id="cameraFeed1">
-                </div>
-                <div class="text-section">
-                    Some text beside the camera feed. This text can include any information you want to display next to
-                    the camera feed.
-                    Additional information can be added here, such as instructions, status messages, or other relevant
-                    data.
                 </div>
             </div>
         </div>
@@ -225,99 +284,22 @@
                 <div class="fuel-content">
                     <div id="gauge_chart" class="gauge-container"></div>
                     <div id="fuel-level-data">
-                        <p>Persentase: <span id="fuel-level"
-                                style="color: #f1c40f; font-weight: bold; font-size: 24px;">0</span>%</p>
+                        <p style=" font-weight: bold;">Persentase: <span id="fuel-level"
+                                style="color: #14279B; font-weight: bold; font-size: 24px;">0</span>%</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer>
+        <button onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            <span></span>
+        </button>
+    </footer>
+
     <script>
-        // Google Maps API initialization
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: -6.2088,
-                    lng: 106.8456
-                },
-                zoom: 12
-            });
-
-            var marker;
-
-            // Function to fetch and update GPS data
-            function fetchAndSetGPSData() {
-                fetch('/api/gps/latest')
-                    .then(response => response.json())
-                    .then(data => {
-                        var position = {
-                            lat: parseFloat(data.latitude),
-                            lng: parseFloat(data.longitude)
-                        };
-
-                        if (!marker) {
-                            marker = new google.maps.Marker({
-                                position: position,
-                                map: map,
-                                title: 'Lokasi GPS'
-                            });
-                        } else {
-                            marker.setPosition(position);
-                        }
-
-                        map.setCenter(position);
-
-                        document.getElementById('gps-data').innerHTML = `
-                            <p>Latitude: ${data.latitude}</p>
-                            <p>Longitude: ${data.longitude}</p>
-                            <p>Recorded at: ${data.recorded_at}</p>
-                        `;
-                    })
-                    .catch(error => console.error('Error fetching GPS data:', error));
-            }
-
-            // Function to fetch and update fuel level data
-            function fetchAndSetFuelLevel() {
-                fetch('/api/fuel-level/latest')
-                    .then(response => response.json())
-                    .then(data => {
-                        updateGauge(data.persentase_bahan_bakar);
-                    })
-                    .catch(error => console.error('Error fetching fuel level data:', error));
-            }
-
-            // Function to fetch and update camera feeds (assuming you have separate endpoints for each camera)
-            function fetchAndSetCameraFeed(cameraId) {
-                fetch(`http://localhost:8000/camera/${cameraId}`)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.blob();
-                        }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(blob => {
-                        const imgUrl = URL.createObjectURL(blob);
-                        document.getElementById(`cameraFeed${cameraId}`).src = imgUrl;
-                    })
-                    .catch(error => console.error(`Error fetching camera ${cameraId} feed:`, error));
-            }
-
-            // Initialize map and start fetching data
-            fetchAndSetGPSData();
-            fetchAndSetFuelLevel();
-            fetchAndSetCameraFeed(1); // Example for camera 1
-            fetchAndSetCameraFeed(2); // Example for camera 2
-            fetchAndSetCameraFeed(3); // Example for camera 3
-
-            // Set intervals for updating data
-            setInterval(fetchAndSetGPSData, 5000); // Update GPS data every 5 seconds
-            setInterval(fetchAndSetFuelLevel, 5000); // Update fuel level data every 5 seconds
-            setInterval(() => fetchAndSetCameraFeed(1), 10000); // Update camera 1 feed every 10 seconds
-            setInterval(() => fetchAndSetCameraFeed(2), 10000); // Update camera 2 feed every 10 seconds
-            setInterval(() => fetchAndSetCameraFeed(3), 10000); // Update camera 3 feed every 10 seconds
-        }
-
         // Google Charts API initialization
         google.charts.load('current', {
             'packages': ['gauge']
@@ -346,7 +328,6 @@
 
             chart.draw(data, options);
 
-            // Function to fetch and update fuel level data
             function fetchAndSetFuelLevel() {
                 fetch('/api/fuel-level/latest')
                     .then(response => response.json())
@@ -356,21 +337,16 @@
                     .catch(error => console.error('Error fetching fuel level data:', error));
             }
 
-            // Function to update the gauge with the fuel level
             function updateGauge(fuelLevel) {
                 data.setValue(0, 1, fuelLevel);
                 chart.draw(data, options);
                 document.getElementById('fuel-level').textContent = fuelLevel;
             }
 
-            // Initial fetch of fuel level data
             fetchAndSetFuelLevel();
-
-            // Set interval to update fuel level data every 5 seconds
             setInterval(fetchAndSetFuelLevel, 5000);
         }
 
-        // Google Maps API initialization
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
@@ -386,7 +362,6 @@
             });
             var marker;
 
-            // Function to fetch and update GPS data
             function fetchAndSetGPSData() {
                 fetch('/api/gps/latest')
                     .then(response => response.json())
@@ -409,48 +384,43 @@
                         map.setCenter(position);
 
                         document.getElementById('gps-data').innerHTML = `
-                            <p>Latitude: ${data.latitude}</p>
-                            <p>Longitude: ${data.longitude}</p>
-                            <p>Recorded at: ${data.recorded_at}</p>
+                            <p><strong>Latitude:</strong> ${data.latitude}</p>
+                            <p><strong>Longitude:</strong> ${data.longitude}</p>
+                            <p><strong>Recorded at:</strong> ${data.recorded_at}</p>
                         `;
                     })
                     .catch(error => console.error('Error fetching GPS data:', error));
             }
 
-            // Function to fetch and update camera feeds (assuming you have separate endpoints for each camera)
-            function fetchAndSetCameraFeed(cameraId) {
-                fetch(`http://localhost:8000/camera/${cameraId}`)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.blob();
-                        }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(blob => {
-                        const imgUrl = URL.createObjectURL(blob);
-                        document.getElementById(`cameraFeed${cameraId}`).src = imgUrl;
-                    })
-                    .catch(error => console.error(`Error fetching camera ${cameraId} feed:`, error));
-            }
-
-            // Initialize map and start fetching data
             fetchAndSetGPSData();
-            fetchAndSetCameraFeed(1); // Example for camera 1
-            fetchAndSetCameraFeed(2); // Example for camera 2
-            fetchAndSetCameraFeed(3); // Example for camera 3
-
-            // Set intervals for updating data
-            setInterval(fetchAndSetGPSData, 5000); // Update GPS data every 5 seconds
-            setInterval(fetchAndSetFuelLevel, 5000); // Update fuel level data every 5 seconds
-            setInterval(() => fetchAndSetCameraFeed(1), 10000); // Update camera 1 feed every 10 seconds
-            setInterval(() => fetchAndSetCameraFeed(2), 10000); // Update camera 2 feed every 10 seconds
-            setInterval(() => fetchAndSetCameraFeed(3), 10000); // Update camera 3 feed every 10 seconds
+            setInterval(fetchAndSetGPSData, 5000);
         }
 
-        // Ensure the initMap function is called when the Google Maps API is loaded
+        function fetchAndSetCameraFeed(cameraId) {
+            fetch(`http://localhost:8000/camera/${cameraId}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.blob();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(blob => {
+                    const imgUrl = URL.createObjectURL(blob);
+                    document.getElementById(`cameraFeed${cameraId}`).src = imgUrl;
+                })
+                .catch(error => console.error(`Error fetching camera ${cameraId} feed:`, error));
+        }
+
         google.maps.event.addDomListener(window, 'load', initMap);
+
+        function goForward() {
+            // Add your forward navigation logic here
+            // Example:
+            // window.location.href = '/next-page';
+        }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFwDXXqNBAqduEnpJLfkvaGWysQA9ZZxM&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3eELrNG2INVdv3B0TYQIlPbjO-ERa6FA&callback=initMap" async
+        defer></script>
 </body>
 
 </html>

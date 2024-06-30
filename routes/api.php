@@ -3,9 +3,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FuelLevelController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\API\CameraController;
 use App\Http\Controllers\GpsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,12 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/camera', [CameraController::class, 'store']);
+
 Route::get('/fuel-level/latest', [FuelLevelController::class, 'latest']);
 Route::post('/fuel-level/store', [FuelLevelController::class, 'store']);
-Route::post('/gps/store', [GpsController::class, 'store']);
-Route::get('/dashboard/{detectionId}', [DashboardController::class, 'show'])->name('dashboard.show');
 Route::get('/gps/latest', [GpsController::class, 'latest']);
+Route::post('/gps-data', [GpsController::class, 'store']);
+
 Route::middleware('throttle:100,1')->group(function () {
     Route::post('/detect', function (Request $request) {
         // Data yang diterima dari request

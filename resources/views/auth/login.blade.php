@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
+    <div class="background-image"></div> <!-- Background blur element -->
     <div class="row justify-content-center">
         <div class="col-md-5">
             @if (session()->has('success'))
@@ -36,7 +37,8 @@
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
                 </form>
-                <small class="d-block text-center mt-3">Not registered? <a href="{{ route('register') }}">Register Now!</a></small>
+                <small class="d-block text-center mt-3" >Not registered? <a href="{{ route('register') }}" style="color: #6495f0; font-weight: bold;"
+                    >Register Now!</a></small>
             </main>
         </div>
     </div>
